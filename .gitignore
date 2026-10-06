@@ -15,3 +15,11 @@
 .DS_Store
 .idea/
 .vscode/
+
+# Testing & Coverage
+coverage/
+**/coverage/
+.lighthouseci/
+playwright-report/
+test-results/
+

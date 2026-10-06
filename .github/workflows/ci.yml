@@ -64,3 +64,14 @@ jobs:
       - name: 🏗️ Build
         working-directory: client
         run: npm run build
+
+      - name: 🧪 Unit & Integration Tests (Vitest)
+        working-directory: client
+        run: npm run test:coverage
+
+      - name: 📤 Upload Test Coverage
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: client-coverage-report
+          path: client/coverage/

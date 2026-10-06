@@ -258,12 +258,44 @@ VITE_API_URL=https://twitter-social-api.onrender.com
 
 ---
 
-## 🔄 CI/CD Pipeline
+## 🔄 CI/CD & Testing Pipeline
 
-- **CI:** `npm run lint` + `npm run build` cho cả Backend và Frontend
-- **CD (Render):** Deploy hook tự động khi push lên branch `main`
-- **CD (Cloudflare):** Pages auto-deploy từ GitHub repo
+- **CI (Backend):** `npm run lint` + `npx tsc --noEmit` + `npm run build`
+- **CI (Frontend):** `npm run lint` + `npm run build` + `npm run test:coverage` (Vitest + React Testing Library)
+- **Lighthouse CI:** Tự động audit Core Web Vitals (Performance, Accessibility, Best Practices) qua GitHub Actions
+- **CD (Render):** Docker Buildx đẩy image lên Docker Hub + kích hoạt Deploy Hook
+- **CD (Cloudflare):** Cloudflare Pages tự động build & deploy frontend khi có commit mới
+
+---
+
+## 🧪 Testing & Code Quality
+
+### 1. Unit & Integration Testing (Vitest & React Testing Library)
+```bash
+cd client
+
+# Chạy toàn bộ test suites
+npm run test:run
+
+# Chạy test với báo cáo coverage (V8 Engine)
+npm run test:coverage
+```
+- **Coverage modules:** AuthContext, Route Guards (ProtectedRoute, GuestRoute), Token Storage & bfcache sync, HTTP interceptor & error parsing, format/image utils, UI primitives (Alert, Avatar, BrandMark, LoadingScreen).
+- **Test results:** 10 test files, 42 tests passing.
+
+### 2. End-to-End Testing (Playwright)
+```bash
+cd client
+
+# Chạy E2E tests
+npm run test:e2e
+```
+- E2E coverage: Luồng điều hướng, xác thực, bảo vệ private routes và tương tác UI.
+
+### 3. Component Library (Storybook)
+- Cung cấp component stories độc lập cho UI primitives (Alert, Avatar, BrandMark) tại `client/src/stories`.
 
 ---
 
 *Dự án mã nguồn mở phát triển nhằm mục tiêu chia sẻ kiến thức cộng đồng.*
+
